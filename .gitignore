@@ -1,0 +1,5 @@
+project.docx
+*.jpg
+*.ipynb_checkpoints/
+*.tgz
+*pycache__/
