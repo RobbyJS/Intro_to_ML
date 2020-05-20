@@ -5,9 +5,12 @@ import argparse
 
 import torch
 import json
+# from numba import jit
+# from numba import cuda
 
 import torch_utils as tu
 import image_utils as iu
+import helpers as h
 
 
 def_img_path = "flowers/test/5/image_05186.jpg"
@@ -33,6 +36,11 @@ def main():
                      default=1,
                      help="Number of classes and probabilities to be provided in prediction")
 
+    parser.add_argument('--category_names', action="store",
+                     default="cat_to_name.json",
+                     help="Path to file containing the mapping of labels to category names")
+                     
+
     # parser.add_argument('--path', action="store",
     #                 dest="path")
 
@@ -53,6 +61,11 @@ def main():
     # if results_p.top_k:
         # top_k = results_p.top_k
     print("Number of classes selected for prediction:",results_p.top_k)
+    print("File selected for mapping:",results_p.category_names)
+    print("\n\n")
+    print(torch.cuda.current_device())
+    print(torch.cuda.get_device_name(0))
+    
 
     # Conditional to set the import to gpu or cpu
     if torch.cuda.is_available():
@@ -76,7 +89,7 @@ def main():
     # plt.close(fig=fig)
     print("I went through close command")
 
-    with open('cat_to_name.json', 'r') as f:
+    with open(results_p.category_names, 'r') as f:
         cat_to_name = json.load(f)
 
 
@@ -87,7 +100,10 @@ def main():
     # Predict the most likely classes and the probabilities associated
     top_p, top_classes = iu.predict(img_path, model,device,cat_to_name,results_p.top_k)
 
-    print(top_classes)
+    print("\n")
+    print("Below are the predictions obtained with the model in",chkp_path,":\n")
+    h.pprint(top_classes,top_p)
+    print("\n")
 
     
 
