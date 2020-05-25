@@ -63,8 +63,8 @@ def main():
     print("Number of classes selected for prediction:",results_p.top_k)
     print("File selected for mapping:",results_p.category_names)
     print("\n\n")
-    print(torch.cuda.current_device())
-    print(torch.cuda.get_device_name(0))
+    # print(torch.cuda.current_device())
+    # print(torch.cuda.get_device_name(0))
     
 
     # Conditional to set the import to gpu or cpu
@@ -112,5 +112,5 @@ if __name__=='__main__':
 
     # img_path = "flowers/test/5/image_05166.jpg"
     # main(img_path = img_path)
-    # run like this: python predict.py flowers/test/5/image_05166.jpg checkpoint_vgg16_class1.pth
+    # run like this: python predict.py flowers/test/5/image_05166.jpg checkpoint_vgg16_class1.pth --top_k 4
     main()
